@@ -16,3 +16,6 @@ func NewItem(rarity int, name string) Item {
     Name: name,
   }
 }
+func CopyItem(item Item) Item{
+  return NewItem(item.Rarity, item.Name)
+}
