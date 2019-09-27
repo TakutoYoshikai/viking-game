@@ -1,10 +1,9 @@
 package main
 
 import (
-  "net/http"
   "viking-game/model"
-  "encoding/json"
   "fmt"
+  "github.com/gin-gonic/gin"
 )
 
 var Accounts []model.Account = MakeSeed()
@@ -21,27 +20,20 @@ func FindAccount(username string, password string) *model.Account {
 }
 
 func ConfigureServer() {
-  http.HandleFunc("/user", func (w http.ResponseWriter, r *http.Request) {
-    password := r.URL.Query().Get("password")
-    username := r.URL.Query().Get("username")
-    fmt.Println(username)
-    fmt.Println(password)
+  router := gin.Default()
+  router.GET("/:username/:password", func(ctx *gin.Context) {
+    username := ctx.Param("username")
+    password := ctx.Param("password")
     account := FindAccount(username, password)
-    w.Header().Set("Content-Type", "application/json")
     if account == nil {
-      http.Error(w, "Unauthorized", http.StatusUnauthorized)
+      ctx.JSON(401, nil)
       return
     }
-    res, err := json.Marshal(account.Items)
-    if err != nil {
-      http.Error(w, err.Error(), http.StatusInternalServerError)
-      return
-    }
-    w.Write(res)
+    ctx.JSON(200, account.Items)
   })
+  router.Run(":8080")
 }
 
 func main() {
   ConfigureServer()
-  http.ListenAndServe(":8080", nil)
 }
