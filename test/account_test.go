@@ -16,17 +16,17 @@ func TestGiveItem(t *testing.T) {
     Password: "bob01",
   }
   alice.Items = []model.Item {
-    model.Item {
-      Rarity: 5,
-      Name: "オーブ",
-    },
-    model.Item {
-      Rarity: 4,
-      Name: "剣",
-    },
+    model.NewItem (
+      5,
+      "オーブ",
+    ),
+    model.NewItem (
+      4,
+      "剣",
+    ),
   }
 
-  alice.GiveItem(0, bob)
+  alice.GiveItem(alice.Items[0].Id, bob)
   if len(alice.Items) != 1 {
     t.Error("aliceのitemが減っていない: ", len(alice.Items))
   }
@@ -40,4 +40,27 @@ func TestGiveItem(t *testing.T) {
     t.Error("bobが受け取っているアイテムが違う: ", bob.Items[0].Name)
   }
   t.Log("GiveItem終了")
+}
+
+func TestSearchItemAndIndex(t *testing.T) {
+  alice := &model.Account {
+    Username: "alice",
+    Password: "alice01",
+  }
+  alice.Items = []model.Item {
+    model.NewItem(5, "オーブ"),
+    model.NewItem(4, "剣"),
+  }
+  index, _ := alice.SearchItemAndIndex(alice.Items[1].Id + 1)
+  if index != -1 {
+    t.Error("所有していないitemのidで検索して、indexが-1でない")
+  }
+  index, item := alice.SearchItemAndIndex(alice.Items[1].Id)
+  if index != 1 {
+    t.Error("間違ったindexを返している")
+  }
+  if item.Id != alice.Items[1].Id {
+    t.Error("間違ったitemを返している")
+  }
+  t.Log("SearchItemAndIndex終了")
 }
