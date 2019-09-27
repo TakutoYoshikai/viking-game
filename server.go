@@ -7,7 +7,24 @@ import (
 )
 func CreateServer() *gin.Engine {
   router := gin.Default()
-  router.GET("/:username/:password", func(ctx *gin.Context) {
+  router.GET("/item/:username/:item_id", func(ctx *gin.Context) {
+    username := ctx.Param("username")
+    itemIdStr := ctx.Param("item_id")
+    itemId, err := strconv.Atoi(itemIdStr)
+    if err != nil {
+      ctx.JSON(400, nil)
+      return
+    }
+
+    account := accounts.GetAccount(username)
+    _, item := account.SearchItemAndIndex(itemId)
+    if item == nil {
+      ctx.JSON(404, nil)
+      return
+    }
+    ctx.JSON(200, item)
+  })
+  router.GET("/items/:username/:password", func(ctx *gin.Context) {
     username := ctx.Param("username")
     password := ctx.Param("password")
     account := accounts.Login(username, password)
@@ -18,10 +35,10 @@ func CreateServer() *gin.Engine {
     ctx.JSON(200, account.Items)
   })
 
-  router.GET("/:username/:password/:itemid/:to",  func(ctx *gin.Context) {
+  router.GET("/send/:username/:password/:item_id/:to",  func(ctx *gin.Context) {
     username := ctx.Param("username")
     password := ctx.Param("password")
-    itemIdStr := ctx.Param("itemid")
+    itemIdStr := ctx.Param("item_id")
     itemId, err := strconv.Atoi(itemIdStr)
     toId := ctx.Param("to")
     to := accounts.GetAccount(toId)
