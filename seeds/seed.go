@@ -1,4 +1,4 @@
-package main
+package seeds
 import (
   "viking-game/model"
   "strconv"
@@ -30,7 +30,7 @@ func chooseRandomItems() []model.Item {
   return result
 }
 
-func MakeSeed() []model.Account {
+func CreateAccounts() []model.Account {
 
   var accounts []model.Account = []model.Account {}
   for i := 0; i < 100; i++ {

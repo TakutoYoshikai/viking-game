@@ -1,12 +1,13 @@
 
-package main
+package accounts
 
 import (
   "viking-game/model"
+  "viking-game/seeds"
   "fmt"
 )
 
-var Accounts []model.Account = MakeSeed()
+var Accounts []model.Account = seeds.CreateAccounts()
 
 
 func Login(username string, password string) *model.Account {
@@ -36,13 +37,6 @@ func getIndexOfAccount(username string) int {
   return -1
 }
 
-func SetItems(account *model.Account, items []model.Item) {
-  index := getIndexOfAccount(account.Username)
-  if index == -1 {
-    return
-  }
-  Accounts[index].Items = items
-}
 
 func GiveItem(from string, to string, itemId int) bool {
   fromIndex := getIndexOfAccount(from)

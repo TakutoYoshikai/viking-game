@@ -2,6 +2,7 @@ package main
 
 import (
   "github.com/gin-gonic/gin"
+  "viking-game/accounts"
   "strconv"
 )
 func CreateServer() *gin.Engine {
@@ -9,7 +10,7 @@ func CreateServer() *gin.Engine {
   router.GET("/:username/:password", func(ctx *gin.Context) {
     username := ctx.Param("username")
     password := ctx.Param("password")
-    account := Login(username, password)
+    account := accounts.Login(username, password)
     if account == nil {
       ctx.JSON(401, nil)
       return
@@ -23,12 +24,12 @@ func CreateServer() *gin.Engine {
     itemIdStr := ctx.Param("itemid")
     itemId, err := strconv.Atoi(itemIdStr)
     toId := ctx.Param("to")
-    to := GetAccount(toId)
+    to := accounts.GetAccount(toId)
     if err != nil {
       ctx.JSON(400, nil)
       return
     }
-    account := Login(username, password)
+    account := accounts.Login(username, password)
     if account == nil {
       ctx.JSON(401, nil)
       return
@@ -37,7 +38,7 @@ func CreateServer() *gin.Engine {
       ctx.JSON(404, nil)
       return
     }
-    success := GiveItem(account.Username, to.Username, itemId)
+    success := accounts.GiveItem(account.Username, to.Username, itemId)
     if success {
       ctx.JSON(200, nil)
       return
