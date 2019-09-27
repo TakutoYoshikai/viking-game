@@ -24,10 +24,14 @@ func TestGiveItem(t *testing.T) {
       4,
       "剣",
     ),
+    model.NewItem (
+      3,
+      "服",
+    ),
   }
 
   alice.GiveItem(alice.Items[0].Id, bob)
-  if len(alice.Items) != 1 {
+  if len(alice.Items) != 2 {
     t.Error("aliceのitemが減っていない: ", len(alice.Items))
   }
   if len(bob.Items) != 1 {
