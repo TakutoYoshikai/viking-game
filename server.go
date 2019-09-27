@@ -24,10 +24,9 @@ func CreateServer() *gin.Engine {
     }
     ctx.JSON(200, item)
   })
-  router.GET("/items/:username/:password", func(ctx *gin.Context) {
+  router.GET("/items/:username", func(ctx *gin.Context) {
     username := ctx.Param("username")
-    password := ctx.Param("password")
-    account := accounts.Login(username, password)
+    account := accounts.GetAccount(username)
     if account == nil {
       ctx.JSON(401, nil)
       return
