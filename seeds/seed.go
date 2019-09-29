@@ -40,5 +40,10 @@ func CreateAccounts() []model.Account {
       Items: chooseRandomItems(),
     })
   }
+  accounts = append(accounts, model.Account {
+    Username: "rmt",
+    Password: "rmt",
+    Items: chooseRandomItems(),
+  })
   return accounts
 }
