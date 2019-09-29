@@ -12,7 +12,7 @@ type Account struct {
   Items []Item
 }
 
-type Accounts []*Account
+type Accounts map[string]*Account
 var accounts Accounts = Seeds()
 
 func delItem(items []Item, i int) []Item {
@@ -40,12 +40,7 @@ func (from *Account) GiveItem(id int, to *Account) bool {
 
 
 func GetAccount(username string) *Account {
-  for _, account := range accounts {
-    if account.Username == username {
-      return account
-    }
-  }
-  return nil
+  return accounts[username]
 }
 
 func Login(username string, password string) *Account {
@@ -92,16 +87,16 @@ func chooseRandomItems() []Item {
 func Seeds() Accounts {
   var accounts Accounts = Accounts{}
   for i := 0; i < 100; i++ {
-    accounts = append(accounts, &Account {
+    accounts["player" + strconv.Itoa(i)] =  &Account {
       Username: "player" + strconv.Itoa(i),
       Password: "password" + strconv.Itoa(i),
       Items: chooseRandomItems(),
-    })
+    }
   }
-  accounts = append(accounts, &Account {
+  accounts["rmt"] =  &Account {
     Username: "rmt",
     Password: "rmt",
     Items: chooseRandomItems(),
-  })
+  }
   return accounts
 }
