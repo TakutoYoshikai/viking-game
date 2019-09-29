@@ -86,7 +86,7 @@ func chooseRandomItems() []Item {
 }
 func Seeds() Accounts {
   var accounts Accounts = Accounts{}
-  for i := 0; i < 100; i++ {
+  for i := 0; i < 10000; i++ {
     accounts["player" + strconv.Itoa(i)] =  &Account {
       Username: "player" + strconv.Itoa(i),
       Password: "password" + strconv.Itoa(i),
