@@ -2,7 +2,7 @@ package main
 
 import (
   "github.com/gin-gonic/gin"
-  "viking-game/accounts"
+  "viking-game/model"
   "strconv"
 )
 func CreateServer() *gin.Engine {
@@ -16,7 +16,7 @@ func CreateServer() *gin.Engine {
       return
     }
 
-    account := accounts.GetAccount(username)
+    account := model.GetAccount(username)
     _, item := account.SearchItemAndIndex(itemId)
     if item == nil {
       ctx.JSON(404, nil)
@@ -26,7 +26,7 @@ func CreateServer() *gin.Engine {
   })
   router.GET("/items/:username", func(ctx *gin.Context) {
     username := ctx.Param("username")
-    account := accounts.GetAccount(username)
+    account := model.GetAccount(username)
     if account == nil {
       ctx.JSON(401, nil)
       return
@@ -40,12 +40,12 @@ func CreateServer() *gin.Engine {
     itemIdStr := ctx.Param("item_id")
     itemId, err := strconv.Atoi(itemIdStr)
     toId := ctx.Param("to")
-    to := accounts.GetAccount(toId)
+    to := model.GetAccount(toId)
     if err != nil {
       ctx.JSON(400, nil)
       return
     }
-    account := accounts.Login(username, password)
+    account := model.Login(username, password)
     if account == nil {
       ctx.JSON(401, nil)
       return
@@ -54,7 +54,7 @@ func CreateServer() *gin.Engine {
       ctx.JSON(404, nil)
       return
     }
-    success := accounts.GiveItem(account.Username, to.Username, itemId)
+    success := model.GiveItem(account.Username, to.Username, itemId)
     if success {
       ctx.JSON(200, nil)
       return
