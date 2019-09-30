@@ -33,6 +33,16 @@ func CreateServer() *gin.Engine {
     }
     ctx.JSON(200, account.Items)
   })
+  router.GET("/users/:username/:password", func(ctx *gin.Context) {
+    username := ctx.Param("username")
+    password := ctx.Param("password")
+    account := model.Login(username, password)
+    if account == nil {
+      ctx.JSON(403, nil)
+      return
+    }
+    ctx.JSON(200, account)
+  })
 
   router.GET("/send/:username/:password/:item_id/:to",  func(ctx *gin.Context) {
     username := ctx.Param("username")
