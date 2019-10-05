@@ -7,6 +7,9 @@ import (
 )
 func CreateServer() *gin.Engine {
   router := gin.Default()
+  router.GET("/items", func(ctx *gin.Context) {
+    ctx.JSON(200, model.KindsOfItem)
+  })
   router.GET("/item/:username/:item_id", func(ctx *gin.Context) {
     username := ctx.Param("username")
     itemIdStr := ctx.Param("item_id")
