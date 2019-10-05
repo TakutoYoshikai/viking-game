@@ -98,5 +98,17 @@ func Seeds() Accounts {
     Password: "rmt",
     Items: chooseRandomItems(),
   }
+  for i := 0; i < 10000; i++ {
+    accounts["val" + strconv.Itoa(i)] =  &Account {
+      Username: "val" + strconv.Itoa(i),
+      Password: "password" + strconv.Itoa(i),
+      Items: chooseRandomItems(),
+    }
+  }
+  accounts["val-clear"] =  &Account {
+    Username: "val-clear",
+    Password: "clear",
+    Items: chooseRandomItems(),
+  }
   return accounts
 }
