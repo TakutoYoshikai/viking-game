@@ -65,22 +65,45 @@ func chooseRandomItems() []Item {
   rand.Seed(time.Now().UnixNano())
   result := []Item {}
   if rand.Int63() % 10 == 0 {
-    result = append(result, CopyItem(KindOfItems[4]))
+    result = append(result, NewItem(KindsOfItem[4]))
   }
   if rand.Int63() % 5 == 0 {
-    result = append(result, CopyItem(KindOfItems[3]))
+    result = append(result, NewItem(KindsOfItem[3]))
   }
   if rand.Int63() % 3 == 0 {
-    result = append(result, CopyItem(KindOfItems[2]))
+    result = append(result, NewItem(KindsOfItem[2]))
   }
   if rand.Int63() % 2 == 0 {
-    result = append(result, CopyItem(KindOfItems[1]))
+    result = append(result, NewItem(KindsOfItem[1]))
   }
-  result = append(result, CopyItem(KindOfItems[0]))
+  result = append(result, NewItem(KindsOfItem[0]))
   return result
 }
 func Seeds() Accounts {
   var accounts Accounts = Accounts{}
+  kindsOfItem := []*KindOfItem {
+    NewKindOfItem(
+      1,
+      "木",
+    ),
+    NewKindOfItem(
+      2,
+      "銅",
+    ),
+    NewKindOfItem(
+      3,
+      "金",
+    ),
+    NewKindOfItem(
+      4,
+      "ダイヤ",
+    ),
+    NewKindOfItem(
+      5,
+      "伝説の剣",
+    ),
+  }
+  SetKindOfItems(kindsOfItem)
   for i := 0; i < 10000; i++ {
     accounts["player" + strconv.Itoa(i)] =  &Account {
       Username: "player" + strconv.Itoa(i),

@@ -15,18 +15,18 @@ func TestGiveItem(t *testing.T) {
     Username: "bob",
     Password: "bob01",
   }
+  kind1 := model.NewKindOfItem(5, "オーブ")
+  kind2 := model.NewKindOfItem(4, "剣")
+  kind3 := model.NewKindOfItem(3, "服")
   alice.Items = []model.Item {
     model.NewItem (
-      5,
-      "オーブ",
+      kind1,
     ),
     model.NewItem (
-      4,
-      "剣",
+      kind2,
     ),
     model.NewItem (
-      3,
-      "服",
+      kind3,
     ),
   }
 
@@ -51,9 +51,11 @@ func TestSearchItemAndIndex(t *testing.T) {
     Username: "alice",
     Password: "alice01",
   }
+  kind1 := model.NewKindOfItem(5, "オーブ")
+  kind2 := model.NewKindOfItem(4, "剣")
   alice.Items = []model.Item {
-    model.NewItem(5, "オーブ"),
-    model.NewItem(4, "剣"),
+    model.NewItem(kind1),
+    model.NewItem(kind2),
   }
   index, _ := alice.SearchItemAndIndex(alice.Items[1].Id + 1)
   if index != -1 {

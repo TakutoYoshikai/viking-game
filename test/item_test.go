@@ -7,27 +7,22 @@ import (
 
 func TestNewItem(t *testing.T) {
   firstItemId := model.NewestItemId
-  item1 := model.NewItem(5, "sword")
-  item2 := model.NewItem(4, "hat")
+  kind1 := model.NewKindOfItem(5, "オーブ")
+  kind2 := model.NewKindOfItem(4, "剣")
+  item1 := model.NewItem(kind1)
+  item2 := model.NewItem(kind2)
   if item1.Id != firstItemId + 1 {
     t.Error("itemのidが足されていない")
   }
   if item2.Id != item1.Id + 1 {
     t.Error("itemのidが足されていない")
   }
+  if item1.Name != "オーブ" {
+    t.Error("itemのnameが反映されていない")
+  }
+  if item1.Rarity != 5 {
+    t.Error("itemのrarityが反映されていない")
+  }
   t.Log("NewItem終了")
 }
 
-func TestCopyItem(t *testing.T) {
-  item := model.NewItem(5, "sword")
-  cpItem := model.CopyItem(&item)
-  if item.Id >= cpItem.Id {
-    t.Error("itemのコピーでidが不正")
-  }
-  if item.Name != cpItem.Name {
-    t.Error("itemのNameがコピーできていない")
-  }
-  if item.Rarity != cpItem.Rarity {
-    t.Error("itemのRarityがコピーできていない")
-  }
-}
