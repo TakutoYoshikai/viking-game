@@ -17,3 +17,17 @@ func TestNewItem(t *testing.T) {
   }
   t.Log("NewItem終了")
 }
+
+func TestCopyItem(t *testing.T) {
+  item := model.NewItem(5, "sword")
+  cpItem := model.CopyItem(&item)
+  if item.Id >= cpItem.Id {
+    t.Error("itemのコピーでidが不正")
+  }
+  if item.Name != cpItem.Name {
+    t.Error("itemのNameがコピーできていない")
+  }
+  if item.Rarity != cpItem.Rarity {
+    t.Error("itemのRarityがコピーできていない")
+  }
+}
