@@ -1,6 +1,6 @@
 package main
 
 func main() {
-  router := CreateServer()
-  router.Run(":8080")
+	router := CreateServer()
+	router.Run(":8080")
 }
